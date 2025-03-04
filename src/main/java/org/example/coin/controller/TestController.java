@@ -12,10 +12,10 @@ public class TestController {
     private final NasdaqService nasdaqService;
 
     @GetMapping("/test")
-    public String test() {
+    public Object test() {
 
-        String startDate = "20250301";
-        String endDate = "20250303";
+        String startDate = "20000301";
+        String endDate = "20250305";
 
         return nasdaqService.getNasdaqIndex(startDate, endDate);
     }

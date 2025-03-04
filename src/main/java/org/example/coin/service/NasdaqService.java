@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.example.coin.dto.res.nasdaq.NasdaqResDto;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -24,7 +25,7 @@ public class NasdaqService {
     private final ApprovalService approvalService;
     private final ObjectMapper objectMapper;
 
-    public String getNasdaqIndex(String startDate, String endDate) {
+    public NasdaqResDto getNasdaqIndex(String startDate, String endDate) {
         String url = "https://openapi.koreainvestment.com:9443/uapi/overseas-price/v1/quotations/inquire-daily-chartprice"
                 + "?FID_COND_MRKT_DIV_CODE=N&FID_INPUT_ISCD=COMP"
                 + "&FID_INPUT_DATE_1=" + startDate + "&FID_INPUT_DATE_2=" + endDate
@@ -43,7 +44,7 @@ public class NasdaqService {
         log.info("getNasdaqIndex token={}", token);
         log.info("authorization: Bearer {}",token);
 
-        Mono<String> result = webClient.get()
+        Mono<NasdaqResDto> result = webClient.get()
                 .uri(url)
                 .header("content-type", "application/json")
                 .header("authorization", "Bearer " + token)
@@ -51,7 +52,7 @@ public class NasdaqService {
                 .header("appsecret", koreaInvestmentSecretKey)
                 .header("tr_id", "FHKST03030100")
                 .retrieve()
-                .bodyToMono(String.class);
+                .bodyToMono(NasdaqResDto.class);
 
         return result.block();
 
