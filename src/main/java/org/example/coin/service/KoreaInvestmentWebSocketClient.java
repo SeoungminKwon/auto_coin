@@ -1,20 +1,15 @@
-package org.example.coin;
+package org.example.coin.service;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.socket.*;
-import org.springframework.web.socket.client.WebSocketClient;
-import org.springframework.web.socket.client.standard.StandardWebSocketClient;
 
 import java.io.IOException;
-import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.CompletableFuture;
 
 @Slf4j
 @Service
@@ -33,25 +28,25 @@ public class KoreaInvestmentWebSocketClient implements WebSocketHandler {
      * Spring Bean이 생성된 후 자동으로 실행됨.
      * WebSocket 서버에 연결을 시도한다.
      */
-    @PostConstruct
-    public void connect() {
-        WebSocketClient client = new StandardWebSocketClient(); // WebSocket 클라이언트 생성
-        WebSocketHttpHeaders headers = new WebSocketHttpHeaders(); // WebSocket 요청 헤더 (필요하면 수정 가능)
-        URI uri = URI.create(WS_URL); // WebSocket 서버의 URI 생성
-
-        // 비동기 방식으로 WebSocket 연결을 시도함
-        CompletableFuture<WebSocketSession> futureSession = client.execute(this, headers, uri);
-
-        futureSession.thenAccept(session -> {
-            this.session = session;
-            log.info("✅ WebSocket 연결 완료!");
-            // Approval Key 발급 후, 실시간 시세 구독 요청
-            approvalService.getApprovalKey().subscribe(this::sendSubscription);
-        }).exceptionally(e -> {
-            log.error("WebSocket 연결 실패", e);
-            return null;
-        });
-    }
+//    @PostConstruct
+//    public void connect() {
+//        WebSocketClient client = new StandardWebSocketClient(); // WebSocket 클라이언트 생성
+//        WebSocketHttpHeaders headers = new WebSocketHttpHeaders(); // WebSocket 요청 헤더 (필요하면 수정 가능)
+//        URI uri = URI.create(WS_URL); // WebSocket 서버의 URI 생성
+//
+//        // 비동기 방식으로 WebSocket 연결을 시도함
+//        CompletableFuture<WebSocketSession> futureSession = client.execute(this, headers, uri);
+//
+//        futureSession.thenAccept(session -> {
+//            this.session = session;
+//            log.info("✅ WebSocket 연결 완료!");
+//            // Approval Key 발급 후, 실시간 시세 구독 요청
+//            approvalService.getWebSocketApprovalKey().subscribe(this::sendSubscription);
+//        }).exceptionally(e -> {
+//            log.error("WebSocket 연결 실패", e);
+//            return null;
+//        });
+//    }
 
     /**
      * WebSocket 연결이 성공적으로 맺어진 경우 호출됨.

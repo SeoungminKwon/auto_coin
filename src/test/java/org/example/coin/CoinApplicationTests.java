@@ -7,7 +7,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 class CoinApplicationTests {
 
     @Test
-    void contextLoads() {
+    void nasdaqTest(){
+
     }
 
 }
