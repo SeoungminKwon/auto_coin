@@ -28,14 +28,14 @@ public class ApprovalService {
     private Instant tokenExpiryTime;
 
 
-    public Mono<String> getApprovalKey(String Uri) {
+    public Mono<String> getApprovalKey(String uri) {
         Map<String, String> requestBody = new HashMap<>();
         requestBody.put("grant_type", "client_credentials");
         requestBody.put("appkey", koreainvestmentAppKey);
         requestBody.put("secretkey", koreainvestmentSecretKey);
 
         return koreaInvestmentWebClient.post()
-                .uri("/oauth2/Approval")
+                .uri(uri)
                 .bodyValue(requestBody)
                 .retrieve()
                 .bodyToMono(String.class);
