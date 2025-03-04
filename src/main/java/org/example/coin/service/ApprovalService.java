@@ -28,21 +28,27 @@ public class ApprovalService {
     private Instant tokenExpiryTime;
 
 
-    public Mono<String> getApprovalKey(String uri) {
+    public Mono<String> getApprovalKey(String uri, String type) {
         Map<String, String> requestBody = new HashMap<>();
         requestBody.put("grant_type", "client_credentials");
         requestBody.put("appkey", koreainvestmentAppKey);
-        requestBody.put("secretkey", koreainvestmentSecretKey);
+        if (type.equalsIgnoreCase("WEBSOCKET")) {
+            requestBody.put("secretkey", koreainvestmentSecretKey);
+        }else if(type.equalsIgnoreCase("TOKEN")){
+            requestBody.put("appsecret", koreainvestmentSecretKey);
+        }
+
 
         return koreaInvestmentWebClient.post()
                 .uri(uri)
+                .header("Content-Type", "application/json")
                 .bodyValue(requestBody)
                 .retrieve()
                 .bodyToMono(String.class);
     }
 
     public Mono<String> getWebSocketApprovalKey() {
-        return getApprovalKey("/oauth2/Approval");
+        return getApprovalKey("/oauth2/Approval", "WEBSOCKET");
     }
 
     public Mono<String> getTokenApprovalKey() {
@@ -56,11 +62,13 @@ public class ApprovalService {
         log.info("🔄 새로운 Token Approval Key 발급 요청");
         Mono<String> result = null;
         try {
-            result = getApprovalKey("/oauth2/tokenP")
+            result = getApprovalKey("/oauth2/tokenP", "TOKEN")
                     .map(token -> {
                         cachedToken = token;
                         tokenExpiryTime = Instant.now().plus(Duration.ofHours(24)); // 24시간 후 만료
                         log.info("✅ 새 Token Approval Key 발급 완료! (만료 시간: {})", tokenExpiryTime);
+                        log.info("Mono Token: {}", token);
+                        log.info("Token: {}", token);
                         return token;
                     });
 

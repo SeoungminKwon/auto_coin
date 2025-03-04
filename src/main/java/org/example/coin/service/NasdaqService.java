@@ -35,7 +35,7 @@ public class NasdaqService {
         String token = "";
         try {
             JsonNode jsonNode = objectMapper.readTree(tokenRes);
-            token = jsonNode.get("approval_key").asText();
+            token = jsonNode.get("access_token").asText();
         } catch (Exception e) {
             log.warn("ObjectMapper 파싱 실패");
         }
