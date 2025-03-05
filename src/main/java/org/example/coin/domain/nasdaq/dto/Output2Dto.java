@@ -1,4 +1,4 @@
-package org.example.coin.dto.res.nasdaq;
+package org.example.coin.domain.nasdaq.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;

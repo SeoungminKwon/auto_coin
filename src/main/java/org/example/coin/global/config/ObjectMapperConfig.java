@@ -1,4 +1,4 @@
-package org.example.coin.config;
+package org.example.coin.global.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.context.annotation.Bean;

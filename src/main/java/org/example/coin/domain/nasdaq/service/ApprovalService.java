@@ -1,4 +1,4 @@
-package org.example.coin.service;
+package org.example.coin.domain.nasdaq.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

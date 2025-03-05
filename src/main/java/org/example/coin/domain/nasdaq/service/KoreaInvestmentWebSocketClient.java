@@ -1,4 +1,4 @@
-package org.example.coin.service;
+package org.example.coin.domain.nasdaq.service;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;

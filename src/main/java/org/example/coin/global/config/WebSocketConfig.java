@@ -1,4 +1,4 @@
-package org.example.coin.config;
+package org.example.coin.global.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
